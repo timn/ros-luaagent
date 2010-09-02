@@ -1,0 +1,12 @@
+*~
+*.so
+/bin/
+/build/
+/lib/
+/msg_gen/
+/srv_gen/
+/srv/*/
+/msg/*/
+/src/*/srv/
+/src/*/msg/
+/src/luaagent/

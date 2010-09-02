@@ -1,0 +1,15 @@
+<package>
+  <description brief="luaagent">
+     Behavior Engine Lua agent.
+  </description>
+  <author>Tim Niemueller</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/luaagent</url>
+  <depend package="roscpp"/>
+  <depend package="roslib"/>
+  <depend package="lua_utils"/>
+  <depend package="skiller"/>
+  <depend package="roslua"/>
+  <depend package="actionlib_lua"/>
+</package>
