@@ -33,7 +33,7 @@ class LuaAgentMain : public fawkes::LuaContextWatcher
   friend int lua_add_watchfile(lua_State *L);
  public:
   LuaAgentMain(ros::NodeHandle &n)
-    : __lua(/* watch files */ true, /* tracebacks */ true),
+    : __lua(/* watch files */ false, /* tracebacks */ true),
       __n(n)
   {
     __lua.add_watcher(this);
