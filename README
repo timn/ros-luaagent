@@ -1,0 +1,21 @@
+
+luaagent: Lua-based Agent Environment
+=====================================
+
+The behavior engine assumes a three layer separation of the robot behavior
+control software. This package provides an environment to formulate high-level
+agent programs using hybrid state machines in Lua.
+
+Essentially this environment lifts the approach of the skiller to the higher
+level program. It communicates with the skiller and uses it as the sole way of
+executing actions with the robot hardware.
+
+Requirements
+------------
+It builds on utility packages from the behavior_engine stack. Additionally,
+it uses actionlib via actionlib_lua to instruct and monitor the skiller.
+
+Documentation
+-------------
+Guides and howtos are currently work in progress. For now we would like to
+refer to the example set of agents provided in the herb_agents package.
