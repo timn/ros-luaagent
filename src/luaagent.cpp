@@ -33,9 +33,9 @@ class LuaAgentMain : public fawkes::LuaContextWatcher
 {
   friend int lua_add_watchfile(lua_State *L);
  public:
-  LuaAgentMain(ros::NodeHandle &n)
+  LuaAgentMain(ros::NodeHandle &n, int argc, char **argv)
     : __lua(/* watch files */ false, /* tracebacks */ true),
-      __n(n)
+      __n(n), __argc(argc), __argv(argv)
   {
     __lua.add_watcher(this);
   }
@@ -70,7 +70,9 @@ class LuaAgentMain : public fawkes::LuaContextWatcher
   init_lua()
   {
     std::string agent = "herb_agents.IOH2010";
-    if (__n.hasParam("/luaagent/agent")) {
+    if (__argc == 2) {
+      agent = __argv[1];
+    } else if (__n.hasParam("/luaagent/agent")) {
       __n.getParam("/luaagent/agent", agent);
     }
 
@@ -121,6 +123,8 @@ class LuaAgentMain : public fawkes::LuaContextWatcher
  private:
   fawkes::LuaContext __lua;
   ros::NodeHandle &__n;
+  int __argc;
+  char **__argv;
 };
 
 static LuaAgentMain *luaagent;
@@ -138,13 +142,30 @@ lua_add_watchfile(lua_State *L)
   return 0;
 }
 
+
+void
+print_usage(const char *program_name)
+{
+  printf("Usage: %s [agent]\n\n"
+	 "agent is the Lua module name that defines the agent.\n"
+	 "It defaults to \"herb_agents.IOH2010\". It can also be set\n"
+	 "via the /luaagent/agent parameter and rosparam/launch file.\n\n",
+	 program_name);
+}
+
+
 int
 main(int argc, char **argv)
 {
   ros::init(argc, argv, "luaagentmain");
   ros::NodeHandle n;
 
-  luaagent = new LuaAgentMain(n);
+  if (argc > 2) {
+    print_usage(argv[0]);
+    exit(-1);
+  }
+
+  luaagent = new LuaAgentMain(n, argc, argv);
   int rv = luaagent->run();
   delete luaagent;
   return rv;
