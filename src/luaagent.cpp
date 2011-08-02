@@ -90,7 +90,12 @@ class LuaAgentMain : public fawkes::LuaContextWatcher
 
   int run()
   {
-    init_lua();
+    try {
+      init_lua();
+    } catch (Exception &e) {
+      printf("Initialization failed: %s\n", e.what());
+      return -1;
+    }
 
     ros::Rate rate(25);
     bool quit = false;
@@ -103,7 +108,7 @@ class LuaAgentMain : public fawkes::LuaContextWatcher
 	try {
 	  __lua.pcall();		// roslua
 	} catch (Exception &e) {
-	  printf("%s", e.what());
+	  printf("%s\n", e.what());
 	}
 
 	// get quite flag
